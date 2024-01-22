@@ -28,13 +28,10 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
     })
 
     socket.on('previousMessages', messages => {
-      console.log(messages)
       setMessages(messages)
     })
 
     socket.on('receivedMessage', message => {
-      console.log(message)
-
       add(message)
     })
 

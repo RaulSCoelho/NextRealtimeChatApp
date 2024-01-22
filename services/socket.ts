@@ -19,8 +19,7 @@ export default function socketClient({ onConnect, onDisconnect }: SocketClientPr
     onDisconnect?.()
   })
 
-  socket.on('connect_error', async err => {
-    console.log(`connect_error due to ${err.message}`)
+  socket.on('connect_error', async () => {
     await fetch('/api/socket')
   })
 

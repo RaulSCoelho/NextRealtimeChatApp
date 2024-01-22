@@ -1,4 +1,3 @@
-import { env } from '@/env'
 import './globals.css'
 import { Providers } from '@/providers'
 import type { Metadata } from 'next'
@@ -15,8 +14,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  console.log('Envs', env)
-
   return (
     <html lang="en">
       <body className={inter.className}>

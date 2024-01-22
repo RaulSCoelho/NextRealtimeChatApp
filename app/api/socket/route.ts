@@ -46,7 +46,7 @@ export async function GET(req: NextRequest, res: NextApiResponseWithSocket) {
       })
 
       socket.on('disconnect', async () => {
-        console.log('socket disconnect')
+        console.log('socket disconnect', socket.id)
       })
     })
 
