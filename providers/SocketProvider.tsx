@@ -22,7 +22,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
 
   useFirstRenderEffect(() => {
     const socket = socketClient({
-      onConnect() {
+      onFetched() {
         setIsMounted(true)
       }
     })
@@ -49,6 +49,8 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <SocketContext.Provider value={{ socket, messages, sendMessage }}>{isMounted && children}</SocketContext.Provider>
+    <SocketContext.Provider value={{ socket, messages, sendMessage }}>
+      {isMounted ? children : 'LOADING...'}
+    </SocketContext.Provider>
   )
 }
