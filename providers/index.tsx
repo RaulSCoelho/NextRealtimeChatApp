@@ -2,12 +2,12 @@
 
 import { NextUIProvider } from '@nextui-org/react'
 
-import { SocketProvider } from './SocketProvider'
+import { PusherProvider } from './PusherProvider'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <NextUIProvider className="h-full">
-      <SocketProvider>{children}</SocketProvider>
+      <PusherProvider>{children}</PusherProvider>
     </NextUIProvider>
   )
 }

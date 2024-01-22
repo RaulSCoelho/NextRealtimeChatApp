@@ -2,20 +2,28 @@ import { z } from 'zod'
 
 const server = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
-  VERCEL_URL: z.string().optional()
+  VERCEL_URL: z.string().optional(),
+  PUSHER_APP_ID: z.string(),
+  PUSHER_SECRET: z.string()
 })
 
 const client = z.object({
   NEXT_PUBLIC_PORT: z
     .string()
     .transform(port => Number(port))
-    .default('3000')
+    .default('3000'),
+  NEXT_PUBLIC_PUSHER_KEY: z.string(),
+  NEXT_PUBLIC_PUSHER_CLUSTER: z.string()
 })
 
 const processEnv = {
   VERCEL_URL: process.env.VERCEL_URL,
   NODE_ENV: process.env.NODE_ENV,
-  NEXT_PUBLIC_: process.env.NEXT_PUBLIC_PORT
+  NEXT_PUBLIC_PORT: process.env.NEXT_PUBLIC_PORT,
+  PUSHER_APP_ID: process.env.PUSHER_APP_ID,
+  NEXT_PUBLIC_PUSHER_KEY: process.env.NEXT_PUBLIC_PUSHER_KEY,
+  PUSHER_SECRET: process.env.PUSHER_SECRET,
+  NEXT_PUBLIC_PUSHER_CLUSTER: process.env.NEXT_PUBLIC_PUSHER_CLUSTER
 }
 
 type ServerEnvs = z.infer<typeof server>

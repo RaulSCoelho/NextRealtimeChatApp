@@ -2,16 +2,18 @@
 
 import { useState } from 'react'
 
-import { useSocket } from '@/hooks/useSocket'
+import { usePusher } from '@/hooks/usePusher'
 import { Button, Textarea } from '@nextui-org/react'
 
 export default function Home() {
-  const { messages, sendMessage } = useSocket()
+  const { users, messages, sendMessage } = usePusher()
   const [message, setMessage] = useState('')
-  console.log(messages)
 
   return (
     <div className="p-20">
+      {users.map(user => (
+        <div key={user.id}>{user.name}</div>
+      ))}
       {messages.map((msg, i) => (
         <div key={i}>{msg.message}</div>
       ))}
