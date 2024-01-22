@@ -5,12 +5,6 @@ import type { Socket as NetSocket } from 'net'
 import type { NextRequest, NextResponse } from 'next/server'
 import { Server } from 'socket.io'
 
-export const config = {
-  api: {
-    bodyParser: false
-  }
-}
-
 interface SocketServer extends HTTPServer {
   io?: Server | undefined
 }
@@ -48,8 +42,6 @@ export async function GET(req: NextRequest, res: NextApiResponseWithSocket) {
 
       socket.on('sendMessage', (msg: Message) => {
         messages.push(msg)
-        console.log(msg)
-
         socket.broadcast.emit('receivedMessage', msg)
       })
 

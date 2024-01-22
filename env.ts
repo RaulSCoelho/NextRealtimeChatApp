@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 const server = z.object({
-  NODE_ENV: z.enum(['development', 'test', 'production']).optional(),
+  NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   VERCEL_URL: z.string().optional()
 })
 
