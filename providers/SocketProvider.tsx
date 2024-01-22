@@ -22,7 +22,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
 
   useFirstRenderEffect(() => {
     const socket = socketClient({
-      onFetched() {
+      onConnect() {
         setIsMounted(true)
       }
     })
