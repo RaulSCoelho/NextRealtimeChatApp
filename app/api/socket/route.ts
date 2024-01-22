@@ -1,27 +1,21 @@
 import { Message } from '@/@types/chat'
 import { env } from '@/env'
-import type { Server as HTTPServer } from 'http'
-import type { Socket as NetSocket } from 'net'
 import type { NextRequest, NextResponse } from 'next/server'
 import { Server } from 'socket.io'
 
-interface SocketServer extends HTTPServer {
-  io?: Server | undefined
-}
-
-interface SocketWithIO extends NetSocket {
-  server: SocketServer
-}
-
 interface NextApiResponseWithSocket extends NextResponse {
-  socket: SocketWithIO
+  socket?: {
+    server: {
+      io: Server | undefined
+    }
+  }
 }
 
 let messages: Message[] = []
 const PORT = env.NEXT_PUBLIC_PORT + 1
 
 export async function GET(req: NextRequest, res: NextApiResponseWithSocket) {
-  if (res.socket?.server?.io) {
+  if (res.socket?.server.io) {
     return Response.json({
       success: true,
       message: 'Socket is already running',
@@ -50,7 +44,7 @@ export async function GET(req: NextRequest, res: NextApiResponseWithSocket) {
       })
     })
 
-    res.socket.server.io = io
+    res.socket = { server: { io } }
     return Response.json({ success: true, message: 'Socket is started', socket: `:${PORT}` }, { status: 201 })
   } catch (err: any) {
     return Response.json(err.message, { status: err.statusCode || 400 })
