@@ -36,7 +36,7 @@ export async function GET(req: NextRequest, res: NextApiResponseWithSocket) {
 
       socket.on('sendMessage', (msg: Message) => {
         messages.push(msg)
-        socket.broadcast.emit('receivedMessage', msg)
+        socket.emit('receivedMessage', msg)
       })
 
       socket.on('disconnect', async () => {
