@@ -1,13 +1,15 @@
 'use client'
 
+import { Modals } from '@/hooks/useModal'
 import { NextUIProvider } from '@nextui-org/react'
 
-import { PusherProvider } from './PusherProvider'
+import { UserProvider } from './UserProvider'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <NextUIProvider className="h-full">
-      <PusherProvider>{children}</PusherProvider>
+    <NextUIProvider>
+      <Modals />
+      <UserProvider>{children}</UserProvider>
     </NextUIProvider>
   )
 }

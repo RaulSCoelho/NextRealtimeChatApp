@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaUserFriends } from 'react-icons/fa'
 import { MdSend } from 'react-icons/md'
@@ -8,7 +9,7 @@ import { Message, User, messageSchema } from '@/@types/pusher'
 import { useActiveList } from '@/hooks/useActiveList'
 import { useArrayState } from '@/hooks/useArrayState'
 import { useFirstRenderEffect } from '@/hooks/useFirstRenderEffect'
-import { usePusher } from '@/hooks/usePusher'
+import { useUser } from '@/hooks/useUser'
 import { toPusherKey } from '@/lib/pusher'
 import { submitOnEnter } from '@/lib/utils'
 import { api } from '@/services/axios'
@@ -19,10 +20,10 @@ import { format } from 'date-fns'
 
 export default function Home() {
   const { users } = useActiveList()
-  const { user } = usePusher()
+  const { user } = useUser()
   const { register, handleSubmit, watch, setValue, resetField } = useForm<Message>({
     resolver: zodResolver(messageSchema),
-    defaultValues: { sender: user, message: '' }
+    defaultValues: { message: '' }
   })
   const [messages, { add: addMessage }] = useArrayState<Message>([])
   const values = watch()
@@ -36,6 +37,11 @@ export default function Home() {
       pusherClient.unbind('incoming_message', addMessage)
     }
   })
+
+  useEffect(() => {
+    setValue('sender', user)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
 
   const setReceiver = (user: User) => () => {
     setValue('receiver', user)
@@ -64,7 +70,7 @@ export default function Home() {
                   className: 'shrink-0'
                 }}
                 classNames={{
-                  base: 'cursor-pointer min-w-[90%] p-1.5 hover:bg-blue-200 data-[selected=true]:bg-blue-200',
+                  base: 'cursor-pointer justify-start min-w-[90%] p-1.5 hover:bg-blue-200 data-[selected=true]:bg-blue-200',
                   name: 'line-clamp-1',
                   description: 'line-clamp-2'
                 }}

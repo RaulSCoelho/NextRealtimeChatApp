@@ -3,6 +3,8 @@ import { Providers } from '@/providers'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
+import { Navbar } from './navbar'
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -16,8 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-app h-[100dvh] w-screen p-5 sm:p-20`}>
-        <Providers>{children}</Providers>
+      <body className={`${inter.className} bg-app`}>
+        <Providers>
+          <div className="flex h-[100dvh] w-screen flex-col">
+            <Navbar />
+            <div className="flex grow flex-col p-5 sm:p-20">{children}</div>
+          </div>
+        </Providers>
       </body>
     </html>
   )
