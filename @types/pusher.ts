@@ -1,13 +1,16 @@
-export interface User {
-  id: string
-  name: string
-}
+import { z } from 'zod'
 
-export interface Message {
-  sender: User
-  receiver: string
-  message: string
-  sendDate: Date
-}
+export const userSchema = z.object({
+  id: z.string(),
+  name: z.string()
+})
 
-export interface SendMessage extends Omit<Message, 'sendDate'> {}
+export const messageSchema = z.object({
+  sender: userSchema,
+  receiver: userSchema,
+  message: z.string().min(1, 'Message cannot be empty'),
+  sendDate: z.date().default(new Date())
+})
+
+export type User = z.infer<typeof userSchema>
+export type Message = z.infer<typeof messageSchema>

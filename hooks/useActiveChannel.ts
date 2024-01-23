@@ -1,10 +1,25 @@
 import { useEffect, useState } from 'react'
 
+import { User } from '@/@types/pusher'
 import { cookies } from '@/lib/cookies'
 import { pusherClient } from '@/services/pusher/client'
 import { Channel } from 'pusher-js'
 
 import { useActiveList } from './useActiveList'
+
+interface Member {
+  id: string
+  info: User
+}
+
+interface Members {
+  me: Member
+  members: {
+    [key: string]: User
+  }
+  myID: string
+  count: number
+}
 
 export function useActiveChannel() {
   const { set, add, remove } = useActiveList()
@@ -18,27 +33,21 @@ export function useActiveChannel() {
       setActiveChannel(channel)
     }
 
-    channel.bind('pusher:subscription_succeeded', ({ members = {} }: any) => {
+    channel.bind('pusher:subscription_succeeded', ({ members = {} }: Members) => {
       const currentUser = cookies.get('user') || {}
       const storedUsers = cookies.get('users') || {}
       const loggedUsers = members
       cookies.set('users', { ...storedUsers, ...loggedUsers })
 
-      set(
-        Object.values(members)
-          .filter(({ id }: any) => id !== currentUser.id)
-          .map((m: any) => m?.name)
-      )
+      set(Object.values(members).filter(({ id }: any) => id !== currentUser.id))
     })
 
-    channel.bind('pusher:member_added', (member: any) => {
-      const { info: { name = member.id } = {} } = member
-      add(name)
+    channel.bind('pusher:member_added', (member: Member) => {
+      member.info && add(member.info)
     })
 
-    channel.bind('pusher:member_removed', (member: any) => {
-      const { info: { name = member.id } = {} } = member
-      remove(name)
+    channel.bind('pusher:member_removed', (member: Member) => {
+      member.info && remove(member.info.id)
     })
 
     return () => {

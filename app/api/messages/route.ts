@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
   try {
     const message: Message = await req.json()
 
-    await pusherServer.trigger(toPusherKey(`user:${message.receiver}:incoming_message`), 'incoming_message', message)
+    await pusherServer.trigger(toPusherKey(`user:${message.receiver.id}:incoming_message`), 'incoming_message', message)
 
     return Response.json({ success: true }, { status: 201 })
   } catch (err: any) {
