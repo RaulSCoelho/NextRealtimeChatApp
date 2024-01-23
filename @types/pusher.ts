@@ -5,6 +5,7 @@ export interface User {
 
 export interface Message {
   sender: User
+  receiver: string
   message: string
   sendDate: Date
 }
