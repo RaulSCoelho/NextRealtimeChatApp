@@ -1,8 +1,10 @@
 import { createContext } from 'react'
 
 import { User } from '@/@types/pusher'
+import Loading from '@/app/loading'
 import { useActiveChannel } from '@/hooks/useActiveChannel'
 import { useCookieState } from '@/hooks/useCookieState'
+import { useIsMounted } from '@/hooks/useIsMounted'
 import { v4 as uuid } from 'uuid'
 
 interface UserContextProps {
@@ -19,6 +21,7 @@ function getFirstTimeUser() {
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useCookieState<User>('user', getFirstTimeUser)
+  const isMounted = useIsMounted()
 
   useActiveChannel()
 
@@ -33,7 +36,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         changeName: name => setUserField('name', name)
       }}
     >
-      {children}
+      {isMounted ? children : <Loading className="bg-app" />}
     </UserContext.Provider>
   )
 }

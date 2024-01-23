@@ -38,13 +38,13 @@ export function Navbar() {
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
             <Avatar
-              isBordered
               as="button"
-              className="transition-transform"
               color="secondary"
-              name={user.name}
               size="sm"
+              name={user.name}
               src={`https://i.pravatar.cc/150?u=${user.id}`}
+              className="transition-transform"
+              isBordered
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
