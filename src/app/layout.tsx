@@ -17,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-app`}>
+    <html lang="en" className="overflow-hidden">
+      <body className={`${inter.className} bg-app overflow-hidden`}>
         <Providers>
           <div className="flex h-[100dvh] w-screen flex-col overflow-hidden">
             <Navbar />
