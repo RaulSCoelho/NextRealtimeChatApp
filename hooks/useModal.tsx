@@ -34,7 +34,7 @@ export function Modals() {
   const { isOpen, header, body, actions, onOpenChange } = useModal()
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
       <ModalContent>
         {onClose => (
           <>
