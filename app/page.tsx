@@ -76,20 +76,22 @@ export default function Home() {
           <div className="flex grow flex-col max-sm:pt-2 sm:pl-2">
             <div className="grow space-y-3">
               {values.receiver &&
-                messages.map((msg, i) => (
-                  <Card
-                    className="break-word relative bg-white/65 p-1.5 text-small text-inherit"
-                    radius="sm"
-                    shadow="sm"
-                    key={i}
-                  >
-                    <p className="font-bold">{msg.sender.name}</p>
-                    <p>{msg.message}</p>
-                    <p className="absolute bottom-1 right-1.5 text-tiny text-foreground-400">
-                      {format(msg.sendDate, 'HH:mm')}
-                    </p>
-                  </Card>
-                ))}
+                messages
+                  .filter(msg => msg.sender.id === values.receiver.id || msg.receiver.id === values.receiver.id)
+                  .map((msg, i) => (
+                    <Card
+                      className="break-word relative bg-white/65 p-1.5 text-small text-inherit"
+                      radius="sm"
+                      shadow="sm"
+                      key={i}
+                    >
+                      <p className="font-bold">{msg.sender.name}</p>
+                      <p>{msg.message}</p>
+                      <p className="absolute bottom-1 right-1.5 text-tiny text-foreground-400">
+                        {format(msg.sendDate, 'HH:mm')}
+                      </p>
+                    </Card>
+                  ))}
               {!values.receiver && (
                 <div className="flex h-full items-center justify-center">
                   <div className="text-center">
