@@ -1,5 +1,13 @@
 import { isArray, isObject } from './assertions'
 
+export function tryParseJSON(value: any): any {
+  try {
+    return JSON.parse(value)
+  } catch {
+    return value
+  }
+}
+
 export function areObjectsEqual(original: any, current: any): boolean {
   if (Array.isArray(original) && Array.isArray(current)) {
     if (original.length !== current.length) {

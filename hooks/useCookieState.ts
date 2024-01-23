@@ -1,22 +1,18 @@
 import { useState } from 'react'
 
 import { isFunction, isServer } from '@/lib/assertions'
-import { cookies } from '@/lib/cookies'
+import { clientCookies } from '@/lib/cookies/client'
 
 function getInitialValue<T>(key: string, initialValue: T | (() => T)) {
   const defaultValue = () => (isFunction(initialValue) ? initialValue() : initialValue)
-  if (isServer) {
-    return defaultValue()
-  }
+  if (isServer) return defaultValue()
 
   try {
-    const item = cookies.get(key)
-
+    const item = clientCookies.get(key)
     if (item) return item
 
     const value = defaultValue()
-
-    cookies.set(key, value)
+    clientCookies.set(key, value)
 
     return value
   } catch (error) {
@@ -35,7 +31,7 @@ export function useCookieState<T>(key: string, initialValue: T | (() => T)) {
       setStoredValue(valueToStore)
 
       if (!isServer) {
-        cookies.set(key, valueToStore)
+        clientCookies.set(key, valueToStore)
       }
     } catch (error) {
       console.log(error)
@@ -44,7 +40,7 @@ export function useCookieState<T>(key: string, initialValue: T | (() => T)) {
 
   function removeValue() {
     if (!isServer) {
-      cookies.delete(key)
+      clientCookies.delete(key)
     }
   }
 

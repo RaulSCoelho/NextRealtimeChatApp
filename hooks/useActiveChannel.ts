@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { User } from '@/@types/pusher'
-import { cookies } from '@/lib/cookies'
+import { clientCookies } from '@/lib/cookies/client'
 import { pusherClient } from '@/services/pusher/client'
 import { Channel } from 'pusher-js'
 
@@ -34,10 +34,10 @@ export function useActiveChannel() {
     }
 
     channel.bind('pusher:subscription_succeeded', ({ members = {} }: Members) => {
-      const currentUser = cookies.get('user') || {}
-      const storedUsers = cookies.get('users') || {}
+      const currentUser = clientCookies.get('user') || {}
+      const storedUsers = clientCookies.get('users') || {}
       const loggedUsers = members
-      cookies.set('users', { ...storedUsers, ...loggedUsers })
+      clientCookies.set('users', { ...storedUsers, ...loggedUsers })
 
       set(Object.values(members).filter(({ id }: any) => id !== currentUser.id))
     })
