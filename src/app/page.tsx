@@ -15,7 +15,7 @@ import { submitOnEnter } from '@/lib/utils'
 import { api } from '@/services/axios'
 import { pusherClient } from '@/services/pusher/client'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, Card, CardBody, Textarea, User as UserCard } from '@nextui-org/react'
+import { Button, Card, CardBody, ScrollShadow, Textarea, User as UserCard } from '@nextui-org/react'
 import { format } from 'date-fns'
 
 export default function Home() {
@@ -57,7 +57,7 @@ export default function Home() {
     <form className="h-full" onSubmit={handleSubmit(onSubmit)}>
       <Card className="h-full" isBlurred>
         <CardBody className="flex h-full flex-col divide-white max-sm:divide-y-2 sm:flex-row sm:divide-x-2">
-          <div className="flex w-full gap-2 max-sm:mb-2 max-sm:overflow-auto sm:mr-2 sm:w-1/4 sm:flex-col">
+          <div className="flex w-full gap-2 max-sm:mb-2 max-sm:overflow-auto sm:mr-2 sm:w-[25%] sm:min-w-[25%] sm:flex-col">
             {users.map(user => (
               <UserCard
                 data-selected={user.id === values.receiver?.id}
@@ -72,32 +72,35 @@ export default function Home() {
                 classNames={{
                   base: 'cursor-pointer justify-start min-w-[90%] p-1.5 hover:bg-blue-200 data-[selected=true]:bg-blue-200',
                   name: 'line-clamp-1',
-                  description: 'line-clamp-2'
+                  description: 'line-clamp-2 break-word'
                 }}
                 onClick={setReceiver(user)}
                 key={user.id}
               />
             ))}
           </div>
-          <div className="flex grow flex-col max-sm:pt-2 sm:pl-2">
-            <div className="grow space-y-3">
-              {values.receiver &&
-                messages
-                  .filter(msg => msg.sender.id === values.receiver.id || msg.receiver.id === values.receiver.id)
-                  .map((msg, i) => (
-                    <Card
-                      className="break-word relative bg-white/65 p-1.5 text-small text-inherit"
-                      radius="sm"
-                      shadow="sm"
-                      key={i}
-                    >
-                      <p className="font-bold">{msg.sender.name}</p>
-                      <p>{msg.message}</p>
-                      <p className="absolute bottom-1 right-1.5 text-tiny text-foreground-400">
-                        {format(msg.sendDate, 'HH:mm')}
-                      </p>
-                    </Card>
-                  ))}
+          <div className="flex grow flex-col gap-3 max-sm:pt-2 sm:pl-2">
+            <ScrollShadow className="flex grow flex-col-reverse" visibility="top" hideScrollBar>
+              {values.receiver && (
+                <div className="space-y-3">
+                  {messages
+                    .filter(msg => msg.sender.id === values.receiver.id || msg.receiver.id === values.receiver.id)
+                    .map((msg, i) => (
+                      <Card
+                        className="break-word relative bg-white/65 p-1.5 text-small text-inherit"
+                        radius="sm"
+                        shadow="sm"
+                        key={i}
+                      >
+                        <p className="font-bold">{msg.sender.name}</p>
+                        <p>{msg.message}</p>
+                        <p className="absolute bottom-1 right-1.5 text-tiny text-foreground-400">
+                          {format(msg.sendDate, 'HH:mm')}
+                        </p>
+                      </Card>
+                    ))}
+                </div>
+              )}
               {!values.receiver && (
                 <div className="flex h-full items-center justify-center">
                   <div className="text-center">
@@ -111,7 +114,7 @@ export default function Home() {
                   </div>
                 </div>
               )}
-            </div>
+            </ScrollShadow>
             <div className="space-y-2 text-end">
               <Textarea
                 placeholder="Message"

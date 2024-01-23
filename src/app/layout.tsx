@@ -20,9 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} bg-app`}>
         <Providers>
-          <div className="flex h-[100dvh] w-screen flex-col">
+          <div className="flex h-[100dvh] w-screen flex-col overflow-hidden">
             <Navbar />
-            <div className="flex grow flex-col p-5 sm:p-20">{children}</div>
+            <div className="flex grow flex-col overflow-hidden p-5 sm:p-20">{children}</div>
           </div>
         </Providers>
       </body>
