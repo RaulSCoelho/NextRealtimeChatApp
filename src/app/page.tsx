@@ -56,8 +56,8 @@ export default function Home() {
   return (
     <form className="h-full" onSubmit={handleSubmit(onSubmit)}>
       <Card className="h-full" isBlurred>
-        <CardBody className="flex h-full flex-col divide-white max-sm:divide-y-2 sm:flex-row sm:divide-x-2">
-          <div className="flex w-full gap-2 max-sm:mb-2 max-sm:overflow-auto sm:mr-2 sm:w-[25%] sm:min-w-[25%] sm:flex-col">
+        <CardBody className="flex h-full flex-col divide-white overflow-hidden max-sm:divide-y-2 sm:flex-row sm:divide-x-2">
+          <div className="flex w-full shrink-0 gap-2 max-sm:mb-2 max-sm:overflow-auto sm:mr-2 sm:w-[25%] sm:min-w-[25%] sm:flex-col">
             {users.map(user => (
               <UserCard
                 data-selected={user.id === values.receiver?.id}
@@ -79,7 +79,7 @@ export default function Home() {
               />
             ))}
           </div>
-          <div className="flex grow flex-col gap-3 max-sm:pt-2 sm:pl-2">
+          <div className="flex grow flex-col gap-3 overflow-hidden max-sm:pt-2 sm:pl-2">
             <ScrollShadow className="flex grow flex-col-reverse" visibility="top" hideScrollBar>
               {values.receiver && (
                 <div className="space-y-3">
